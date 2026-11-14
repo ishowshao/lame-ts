@@ -1,0 +1,186 @@
+{
+  "44100Hz 2ch (defaults)": {
+    "bytes": 40959,
+    "sha256": "8d132b3769ce7d5e4afcc85376b5515756ffb513bd53f3619586a55aea50a6ff"
+  },
+  "44100Hz 2ch -b 128": {
+    "bytes": 40959,
+    "sha256": "8d132b3769ce7d5e4afcc85376b5515756ffb513bd53f3619586a55aea50a6ff"
+  },
+  "44100Hz 2ch -b 320 -q 0": {
+    "bytes": 102399,
+    "sha256": "547dd3ac203eb30d140a0b1441010fbee3a10753d2f76303b5ca3f25c6bb8c58"
+  },
+  "44100Hz 2ch -b 192 -h": {
+    "bytes": 61439,
+    "sha256": "f83fcc0da13b88effb84e67bd5d6938e574c7be242dc98eaca2e6eab709079f7"
+  },
+  "44100Hz 2ch -b 96 -f": {
+    "bytes": 31104,
+    "sha256": "2a928f999d6e975e6772740d694f77e3fb4e72fe2570850636c65b59a4ab51d4"
+  },
+  "44100Hz 2ch -b 64": {
+    "bytes": 20736,
+    "sha256": "dcb25751c0e99325f5bb6ca126f18dfa453dafb9dfe39e46bc7b05b03837054d"
+  },
+  "44100Hz 2ch -b 32 -q 9": {
+    "bytes": 10368,
+    "sha256": "59756db5bd9d70ba56ffb003f265908d1b0c582857f4cbddc34797ad5d1c26b9"
+  },
+  "44100Hz 2ch -b 160 -m s": {
+    "bytes": 51200,
+    "sha256": "ea674997307f234850ac67ee77012b5d290aff564f860bd528bfc309d89cc930"
+  },
+  "44100Hz 2ch -b 128 -m f": {
+    "bytes": 40959,
+    "sha256": "234fcff37d0d0ece020c37fa18d6eebbced20eea61c1b7e8e67641a6e2ee5c7a"
+  },
+  "44100Hz 2ch -b 128 -m d": {
+    "bytes": 40959,
+    "sha256": "cbe9142e0ac3923bcbc368c8cad47669ab51aff76a56187c1394d5177cbb0555"
+  },
+  "44100Hz 2ch -b 96 -m m": {
+    "bytes": 30720,
+    "sha256": "bbafa5d8f7728363c2109503c8a295223945672ea069ef6a15d38e0529bd684e"
+  },
+  "44100Hz 2ch -b 128 -p -c -o": {
+    "bytes": 40959,
+    "sha256": "827855ced5d4fc3efba90c0d85d3b18e1e78d26b4e27aea05722521e3b6f749c"
+  },
+  "44100Hz 2ch -b 128 --nores": {
+    "bytes": 40959,
+    "sha256": "f52c685fcb84f383c65427f4b961e14bac72709b2aefc167564b090ef616cfce"
+  },
+  "44100Hz 2ch -b 128 -t": {
+    "bytes": 40542,
+    "sha256": "48522473805ed7f6c114655fb5af27f98a4536bb68217490ddfcc78c9e5a8210"
+  },
+  "44100Hz 2ch -b 128 --scale 0.5": {
+    "bytes": 40959,
+    "sha256": "08b4ea2d669a911f2b6eb546e66568bcf3bcf2d20cf21c656dd8dfdfe3df8d79"
+  },
+  "44100Hz 2ch -b 128 --lowpass 12 --highpass 0.4": {
+    "bytes": 41472,
+    "sha256": "ff5efb6e457a132ccb97ad788057af5e6e8676cf572950fce8b8f67d113fb69b"
+  },
+  "44100Hz 2ch -b 64 --resample 24": {
+    "bytes": 20736,
+    "sha256": "dcb25751c0e99325f5bb6ca126f18dfa453dafb9dfe39e46bc7b05b03837054d"
+  },
+  "48000Hz 2ch -b 256": {
+    "bytes": 66048,
+    "sha256": "db81c4b382e0dc274ff8635c85f1ff28cd9a3593a73d38ce06f779165b692208"
+  },
+  "32000Hz 2ch -b 112": {
+    "bytes": 29232,
+    "sha256": "25fde582fc7a3b3a51ff2083533e81d4e27e660ed7d71b62e01228d665ec6fc2"
+  },
+  "44100Hz 1ch -b 64": {
+    "bytes": 16508,
+    "sha256": "845544f1b817c333e3e71e0d68721b0715af1d0eeaf0cf8f433cd252bc7fa707"
+  },
+  "22050Hz 2ch -b 64": {
+    "bytes": 16717,
+    "sha256": "ed1f02c789848296b5d9515d1dba22adcd928b5da36537a75f2823e830d168ef"
+  },
+  "16000Hz 1ch -b 24": {
+    "bytes": 6264,
+    "sha256": "7e8a8bb3d45ce95622936444656746ed9b26c64bcc0f56fd2862702e33b93fd4"
+  },
+  "11025Hz 2ch -b 32": {
+    "bytes": 8776,
+    "sha256": "5c010a67ce8ffdf1e78f74501cf768791ac1396f382476f39b155c2d4179710e"
+  },
+  "8000Hz 1ch -b 8": {
+    "bytes": 2160,
+    "sha256": "d4ac04ec15c70fd56b6809c38f9b6d708acc4dff05d4fdf08455404ea00a05cd"
+  },
+  "44100Hz 2ch --abr 128": {
+    "bytes": 42192,
+    "sha256": "869d9e3d80eb6f37426762debe10b2c3a8a19f1656ac6d8267f803e74dbe2ffd"
+  },
+  "44100Hz 2ch --abr 56": {
+    "bytes": 18672,
+    "sha256": "c9a8dcc2158642c80a780a672725560def5d58bb03a109215d0e008e5d5681ac"
+  },
+  "48000Hz 2ch --abr 200 -b 96 -B 256": {
+    "bytes": 51936,
+    "sha256": "480a81fa8110b3050c7e8eff9bdf0e14ab8fbfd72e8d10d12c2720a186967c88"
+  },
+  "16000Hz 1ch --abr 24": {
+    "bytes": 7308,
+    "sha256": "33e3339efa95677e91556aad7f581622c0b9e80c07969b2ec6527a7aaf008c03"
+  },
+  "44100Hz 2ch -V 0": {
+    "bytes": 89984,
+    "sha256": "98c8eec4f50e0c1599b81916ada8b9eab994c7ebc78b773d6a7209b28a7eb56b"
+  },
+  "44100Hz 2ch -V 2": {
+    "bytes": 69307,
+    "sha256": "d0ddf9a62bb8d38946626b72bd8b97d2c10ac892a7729812aeb9487b0af93cef"
+  },
+  "44100Hz 2ch -V 4 -q 0": {
+    "bytes": 56883,
+    "sha256": "61033e5d003eab1663755ed3b4d9e5e4ba395ca25c48fbdb95ff3828e5a449d3"
+  },
+  "44100Hz 2ch -V 5.5": {
+    "bytes": 46422,
+    "sha256": "59dcaa88d16a9b08df04d5a4754ba5d0f51718c6de26fa5b7e3b736ecd5b8637"
+  },
+  "44100Hz 2ch -V 7": {
+    "bytes": 40356,
+    "sha256": "48bdce15c894b8be72a03a9d83980e5f8a7bb8bb71ead0c7c67c27015893e27e"
+  },
+  "44100Hz 2ch -V 9.6": {
+    "bytes": 19341,
+    "sha256": "9e755d7fe5494cac2a74933033d1ffba8cf0920a06917a09e1369d22c86a5be8"
+  },
+  "44100Hz 2ch -V 3 --noreplaygain": {
+    "bytes": 63461,
+    "sha256": "7eb41c56c65208618f431489b106117669503ae2ede657fa0bf45ed4266b6961"
+  },
+  "44100Hz 2ch -V 2 -b 128 -B 224 -F": {
+    "bytes": 66399,
+    "sha256": "1b3bd90676d71234f40fa830aac301c78eea62cc8f1584534e283d34ab803cf1"
+  },
+  "48000Hz 2ch -V 1": {
+    "bytes": 60384,
+    "sha256": "3971d731b074042daee60fefd80daea3e338ce458e0e3fba1e2717cffffa3817"
+  },
+  "32000Hz 2ch -V 3": {
+    "bytes": 44352,
+    "sha256": "57d2462ef8ee30f21bddf4538d99d18ec24eccd22608334045fbf7c02dc36c0c"
+  },
+  "44100Hz 1ch -V 4": {
+    "bytes": 24150,
+    "sha256": "29b87e74c05cb9648201d269540d167968da731820b39628b813718946f12221"
+  },
+  "22050Hz 2ch -V 5": {
+    "bytes": 30728,
+    "sha256": "b988c7b17aec22afab6aa50d1459caef2852d6cba49602d11cab5a6d155e72ae"
+  },
+  "11025Hz 2ch -V 6": {
+    "bytes": 16368,
+    "sha256": "c7b3d815dbd40f71c84edf5f9d953bef9df13f9ad57d46f2c22d1b4969a25736"
+  },
+  "8000Hz 1ch -V 8": {
+    "bytes": 7632,
+    "sha256": "9616e057f66e233c1dc428321bc9c5ef0ff468e17df57b3249754292e64f1848"
+  },
+  "44100Hz 2ch --vbr-old -V 2": {
+    "bytes": 64191,
+    "sha256": "f9c58ca9473e68b9067b6deb566504a5789dac54bbbf01d62dddd07922974edf"
+  },
+  "44100Hz 2ch --vbr-old -V 6 -q 0": {
+    "bytes": 45175,
+    "sha256": "aebade1b28e08c18bac2fab9e8fe0931019a50d2bd6212fb741eea0bb0c8eca9"
+  },
+  "22050Hz 2ch --vbr-old -V 4": {
+    "bytes": 27151,
+    "sha256": "fb71e44cc0ec9709ec343ce86f2aa9eff8cbe63429d8840b6b0ec81061279625"
+  },
+  "16000Hz 1ch --vbr-old -V 8": {
+    "bytes": 11052,
+    "sha256": "2982acfcca7b25d567ef0919e384c9adfade92be203d004b62ca8d359fd75d7d"
+  }
+}
