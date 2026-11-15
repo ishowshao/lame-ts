@@ -38,6 +38,13 @@ PCM can be `Int16Array` (16-bit), `Int32Array` (full scale ±2³¹) or `Float32A
 `Float64Array` (full scale ±1.0), planar (`encode(left, right)`) or interleaved
 (`encodeInterleaved(pcm)`).
 
+Planar channels must use the same full-scale convention (`Float32Array` and `Float64Array`
+can be mixed). An optional `nsamples` argument to `encode()` / `encodeInterleaved()` counts
+samples per channel and must be a non-negative integer that fits in the supplied buffers.
+Without an explicit count, interleaved input must contain complete channel frames. Mismatched
+channel scales and invalid sample counts throw before encoding. Returned chunks own their
+output bytes and can be retained without retaining oversized working buffers.
+
 ### Options
 
 | option | `lame` flag | |

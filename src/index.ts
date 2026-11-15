@@ -101,6 +101,22 @@ function normOf(pcm: PcmInput): number {
   return 32767.0; /* lame_encode_buffer_ieee_float() / _ieee_double() */
 }
 
+function checkSampleCount(nsamples: number, available: number): void {
+  if (!Number.isSafeInteger(nsamples) || nsamples < 0) {
+    throw new RangeError('lame-ts: sample count must be a non-negative safe integer');
+  }
+  if (nsamples > available) throw new RangeError('lame-ts: channel buffers are too short');
+}
+
+function checkPlanarInput(left: PcmInput, right: PcmInput | null | undefined, channels: number, nsamples: number): void {
+  checkSampleCount(nsamples, left.length);
+  if (channels === 2) {
+    if (!right) throw new TypeError('lame-ts: the right channel is required for 2-channel input');
+    checkSampleCount(nsamples, right.length);
+    if (normOf(left) !== normOf(right)) throw new TypeError('lame-ts: both channels must use the same sample type');
+  }
+}
+
 function concat(chunks: Uint8Array[]): Uint8Array {
   let n = 0;
   for (const c of chunks) n += c.length;
@@ -237,6 +253,8 @@ export class Mp3Encoder {
   /**
    * Encodes planar PCM. `right` is required for 2-channel input and ignored for mono.
    * Returns the MP3 bytes that became available (possibly empty).
+   * `nsamples` defaults to `left.length`; an explicit count must be a non-negative integer
+   * that fits in every input channel. Both channels must use the same full-scale convention.
    *
    * - `Int16Array`: 16-bit samples (`lame_encode_buffer`)
    * - `Int32Array`: 32-bit samples, full scale = +/- 2^31 (`lame_encode_buffer_int`)
@@ -244,19 +262,18 @@ export class Mp3Encoder {
    */
   encode(left: PcmInput, right?: PcmInput | null, nsamples?: number): Uint8Array {
     const n = nsamples ?? left.length;
-    if (this.channels === 2) {
-      if (!right) throw new TypeError('lame-ts: the right channel is required for 2-channel input');
-      if (right.length < n || left.length < n) throw new RangeError('lame-ts: channel buffers are too short');
-      if (normOf(left) !== normOf(right)) throw new TypeError('lame-ts: both channels must use the same sample type');
-    }
+    checkPlanarInput(left, right, this.channels, n);
     return this.run(left, 0, this.channels === 2 ? right! : null, 0, n, 1, normOf(left));
   }
 
-  /** Encodes interleaved PCM (L R L R ... for 2 channels). See `encode()` for sample types. */
+  /**
+   * Encodes interleaved PCM (L R L R ... for 2 channels). See `encode()` for sample types.
+   * `nsamples` counts samples per channel. Without it, the buffer must contain whole frames.
+   */
   encodeInterleaved(pcm: PcmInput, nsamples?: number): Uint8Array {
-    if (this.channels === 1) return this.run(pcm, 0, null, 0, nsamples ?? pcm.length, 1, normOf(pcm));
-    const n = nsamples ?? (pcm.length / 2) | 0;
-    return this.run(pcm, 0, pcm, 1, n, 2, normOf(pcm));
+    const n = nsamples ?? pcm.length / this.channels;
+    checkSampleCount(n, pcm.length / this.channels);
+    return this.run(pcm, 0, this.channels === 2 ? pcm : null, 1, n, this.channels, normOf(pcm));
   }
 
   /**
@@ -286,11 +303,15 @@ export class Mp3Encoder {
   ): Uint8Array {
     if (this.finished) throw new Error('lame-ts: encode() called after flush()');
     if (nsamples <= 0) return new Uint8Array(0);
-    /* worst case estimate given in lame.h */
-    const out = new Uint8Array(Math.ceil(1.25 * nsamples) + 7200 + 2880);
+    /* Account for samples produced by upsampling before applying the worst-case byte
+     * estimate from lame.h. Keep the original conservative bound when not upsampling. */
+    const cfg = this.gfp.internal_flags.cfg;
+    const outputSamples = Math.ceil(nsamples * Math.max(1, cfg.samplerate_out / cfg.samplerate_in));
+    const out = new Uint8Array(Math.ceil(1.25 * outputSamples) + 7200 + 2880);
     const n = lame_encode_buffer_template(this.gfp, left, lo, right, ro, nsamples, out, 0, out.length, jump, norm);
     if (n < 0) throw new Error(`lame-ts: internal encoder error ${n}`);
-    return out.subarray(0, n);
+    // Callers may retain every chunk; do not keep the oversized working buffer alive.
+    return out.slice(0, n);
   }
 
   /** Encodes what is still buffered, pads the last frame and returns the final MP3 bytes. */
@@ -300,7 +321,7 @@ export class Mp3Encoder {
     const n = lame_encode_flush(this.gfp, out, 0, out.length);
     if (n < 0) throw new Error(`lame-ts: internal encoder error ${n}`);
     this.finished = true;
-    return out.subarray(0, n);
+    return out.slice(0, n);
   }
 
   /**
@@ -311,7 +332,7 @@ export class Mp3Encoder {
     const out = new Uint8Array(32 * 1024);
     const n = lame_encode_flush_nogap(this.gfp, out, 0, out.length);
     if (n < 0) throw new Error(`lame-ts: internal encoder error ${n}`);
-    return out.subarray(0, n);
+    return out.slice(0, n);
   }
 
   /** `lame_init_bitstream()`: starts a new stream (and a new tag frame) after `flushNoGap()`. */
@@ -343,6 +364,7 @@ export function encodeMp3(pcm: PcmInput | [PcmInput, PcmInput], options: Mp3Enco
   const step = enc.frameSize;
   if (Array.isArray(pcm)) {
     const [l, r] = pcm;
+    checkPlanarInput(l, r, channels, l.length);
     const norm = normOf(l);
     for (let p = 0; p < l.length; p += step) {
       const n = Math.min(step, l.length - p);
@@ -350,7 +372,8 @@ export function encodeMp3(pcm: PcmInput | [PcmInput, PcmInput], options: Mp3Enco
     }
   } else {
     const norm = normOf(pcm);
-    const total = channels === 2 ? (pcm.length / 2) | 0 : pcm.length;
+    const total = pcm.length / channels;
+    checkSampleCount(total, total);
     for (let p = 0; p < total; p += step) {
       const n = Math.min(step, total - p);
       if (channels === 2) chunks.push(enc.encodeRaw(pcm, 2 * p, pcm, 2 * p + 1, n, 2, norm));
