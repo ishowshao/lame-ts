@@ -1,8 +1,20 @@
 {
   "name": "lame-ts",
-  "version": "0.1.0",
+  "version": "0.1.0-rc.1",
   "description": "Zero-dependency TypeScript port of the libmp3lame 3.100 MP3 encoder, bit-exact with the reference C implementation",
   "license": "LGPL-2.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishowshao/lame-ts.git"
+  },
+  "homepage": "https://github.com/ishowshao/lame-ts#readme",
+  "bugs": {
+    "url": "https://github.com/ishowshao/lame-ts/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,11 +25,12 @@
     }
   },
   "bin": {
-    "lame-ts": "./dist/cli.js"
+    "lame-ts": "dist/cli.js"
   },
   "files": [
     "dist",
     "src",
+    "CHANGELOG.md",
     "README.md",
     "LICENSE"
   ],
@@ -29,7 +42,10 @@
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "node --test test/*.test.ts",
-    "prepublishOnly": "npm run build"
+    "check": "npm run typecheck && npm test && npm run build",
+    "release:verify": "node scripts/verify-release-package.ts",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run check"
   },
   "keywords": [
     "mp3",

@@ -140,6 +140,8 @@ side by side.
 npm install
 npm test            # node --test, runs the TypeScript sources directly (Node.js >= 22.18)
 npm run build       # emits dist/
+npm run check       # typecheck, all tests, and build
+npm run release:verify # pack, install, and verify the package consumers receive
 scripts/build-reference.sh                       # builds the reference lame into .reference/
 LAME_REF=.reference/lame-3.100/frontend/lame node scripts/gen-fixtures.ts
 scripts/compare.sh some.wav --abr 128
@@ -149,6 +151,9 @@ scripts/compare.sh some.wav --abr 128
 `quantize.c`, …) and keeps the original function and variable names, so the port can be
 audited side by side with the C sources. `src/tables.ts` is generated from the C tables by
 `scripts/gen-tables/gen.sh`.
+
+Official releases use GitHub Actions and npm Trusted Publishing. See
+[the release guide](docs/releasing.md) for the version/tag workflow and first-release setup.
 
 ## License
 

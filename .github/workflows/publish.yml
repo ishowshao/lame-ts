@@ -1,0 +1,68 @@
+name: Publish npm package
+
+on:
+  push:
+    tags: ["v*"]
+
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Verify and publish
+    runs-on: ubuntu-latest
+    environment: npm-production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - name: Pin npm CLI
+        run: npm install --global npm@11.6.2
+      - name: Validate release identity and notes
+        run: |
+          git merge-base --is-ancestor HEAD origin/main
+          node scripts/release-notes.mjs "$GITHUB_REF_NAME" > "$RUNNER_TEMP/release-notes.md"
+      - run: npm ci
+      - run: npm run check
+      - name: Verify the exact tarball to publish
+        run: npm run release:verify -- --pack-destination .release
+      - name: Publish with npm Trusted Publishing
+        run: |
+          version=$(node -p 'require("./package.json").version')
+          channel=latest
+          if [[ "$version" == *-* ]]; then
+            prerelease=${version#*-}
+            channel=${prerelease%%.*}
+          fi
+          npm publish ".release/lame-ts-$version.tgz" --tag "$channel" --provenance
+      - name: Verify the public registry installation
+        run: |
+          version=$(node -p 'require("./package.json").version')
+          npm run release:verify -- --package "lame-ts@$version"
+          npm view "lame-ts@$version" dist.integrity dist.attestations --json
+
+  release:
+    name: Create GitHub release
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Create release from the changelog
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node scripts/release-notes.mjs "$GITHUB_REF_NAME" > "$RUNNER_TEMP/release-notes.md"
+          args=(--repo "$GITHUB_REPOSITORY" --verify-tag --title "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/release-notes.md")
+          if [[ "$GITHUB_REF_NAME" == *-* ]]; then args+=(--prerelease); fi
+          gh release create "$GITHUB_REF_NAME" "${args[@]}"
