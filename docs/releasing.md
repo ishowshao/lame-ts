@@ -77,8 +77,10 @@ has changelog notes. It installs from the lockfile, repeats the quality gate,
 and publishes the exact archive validated by `release:verify` with provenance.
 Stable versions use `latest`; versions such as `0.2.0-rc.1` use `rc`.
 
-After npm publishing, it installs the public registry package and checks it again,
-with bounded retries to allow registry propagation.
+After npm publishing, it waits up to 20 minutes for npm's publish-time scanning
+and registry availability, then installs the public package and checks it again.
+Scanning usually takes around five minutes and can exceed 15 minutes; see
+[npm's scanning announcement](https://github.blog/changelog/2026-07-28-npm-publish-time-malware-scanning-and-dual-use-metadata/).
 The GitHub Release is created from the changelog only after these checks succeed.
 
 ## Verify completion
