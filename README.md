@@ -13,13 +13,13 @@ C library's. It runs anywhere JavaScript runs: Node.js, Bun, Deno, browsers, wor
 ## Install
 
 ```sh
-npm install lame-ts
+npm install @ishowshao/lame-ts
 ```
 
 ## Usage
 
 ```ts
-import { encodeMp3, Mp3Encoder } from 'lame-ts';
+import { encodeMp3, Mp3Encoder } from '@ishowshao/lame-ts';
 
 // One shot: PCM in, complete MP3 file out (the same bytes `lame -V 2 in.wav` would write).
 const mp3 = encodeMp3([left, right], { sampleRate: 44100, channels: 2, vbrQuality: 2 });
@@ -74,7 +74,7 @@ frontend does), `LAME_VERSION`, and for gapless albums `flushNoGap()` / `startNe
 ### Command line
 
 ```sh
-npx lame-ts -V 2 input.wav output.mp3
+npx @ishowshao/lame-ts -V 2 input.wav output.mp3
 ```
 
 `lame-ts` understands the common subset of the `lame` options listed above (`--help` prints

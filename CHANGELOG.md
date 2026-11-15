@@ -17,7 +17,7 @@
 - Retained output chunks no longer retain oversized encoding buffers.
 - One-shot and streaming APIs consistently validate PCM scales, buffer lengths, and sample counts.
 
-## [0.1.0-rc.1] - 2026-11-15
+## [0.1.0-rc.2] - 2026-11-15
 
 - Initial release candidate with the complete encoder and installed-package checks.
 - Bootstraps the npm package so the first stable release can use GitHub Trusted Publishing.

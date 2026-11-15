@@ -1,6 +1,6 @@
 {
-  "name": "lame-ts",
-  "version": "0.1.0-rc.1",
+  "name": "@ishowshao/lame-ts",
+  "version": "0.1.0-rc.2",
   "description": "Zero-dependency TypeScript port of the libmp3lame 3.100 MP3 encoder, bit-exact with the reference C implementation",
   "license": "LGPL-2.0-or-later",
   "repository": {

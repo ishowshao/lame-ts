@@ -62,7 +62,7 @@ try {
   writeFileSync(join(consumer, 'package.json'), JSON.stringify({ name: 'lame-ts-release-check', private: true, type: 'module' }));
   const tarball = join(temporary, packed.filename);
   run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund', tarball], consumer);
-  const installed = JSON.parse(readFileSync(join(consumer, 'node_modules/lame-ts/package.json'), 'utf8'));
+  const installed = JSON.parse(readFileSync(join(consumer, 'node_modules', manifest.name, 'package.json'), 'utf8'));
   assert.equal(installed.version, manifest.version);
   assert.equal(installed.license, 'LGPL-2.0-or-later');
   assert.equal(installed.type, 'module');
@@ -83,7 +83,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
-import { encodeMp3, Mp3Encoder, parseWav } from 'lame-ts';
+import { encodeMp3, Mp3Encoder, parseWav } from ${JSON.stringify(manifest.name)};
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 for (const c of JSON.parse(readFileSync('cases.json', 'utf8'))) {
   const wav = parseWav(readFileSync(c.index + '.wav'));
@@ -104,8 +104,8 @@ for (const c of JSON.parse(readFileSync('cases.json', 'utf8'))) {
 console.log('Installed API, streaming, and CLI match 3 reference hashes on ' + process.version);
 `);
   console.log(run(runtime, ['smoke.mjs'], consumer));
-  writeFileSync(join(consumer, 'consumer.ts'), `import { encodeMp3, Mp3Encoder } from 'lame-ts';
-import type { Mp3EncoderOptions } from 'lame-ts';
+  writeFileSync(join(consumer, 'consumer.ts'), `import { encodeMp3, Mp3Encoder } from ${JSON.stringify(manifest.name)};
+import type { Mp3EncoderOptions } from ${JSON.stringify(manifest.name)};
 const options: Mp3EncoderOptions = { sampleRate: 44100, channels: 1 };
 const bytes: Uint8Array = encodeMp3(new Int16Array(16), options);
 const encoder: Mp3Encoder = new Mp3Encoder(options);

@@ -1,5 +1,6 @@
 # Releasing lame-ts
 
+The npm package is `@ishowshao/lame-ts`; its executable remains `lame-ts`.
 The regular release path follows Tinker: a reviewed commit on `main`, passing CI,
 an immutable version tag, npm Trusted Publishing, and a GitHub Release.
 
@@ -11,7 +12,7 @@ login and 2FA, using the `rc` dist-tag. Do not use a placeholder package or repl
 `latest` with a prerelease. Record its source with a `bootstrap/vX.Y.Z-rc.N` tag;
 that tag deliberately does not trigger the regular publishing workflow.
 
-Then configure the npm package's GitHub Trusted Publisher with:
+Then configure `@ishowshao/lame-ts`'s GitHub Trusted Publisher with:
 
 - Owner: `ishowshao`
 - Repository: `lame-ts`
@@ -76,14 +77,15 @@ has changelog notes. It installs from the lockfile, repeats the quality gate,
 and publishes the exact archive validated by `release:verify` with provenance.
 Stable versions use `latest`; versions such as `0.2.0-rc.1` use `rc`.
 
-After npm publishing, it installs the public registry package and checks it again.
+After npm publishing, it installs the public registry package and checks it again,
+with bounded retries to allow registry propagation.
 The GitHub Release is created from the changelog only after these checks succeed.
 
 ## Verify completion
 
 ```sh
-npm view lame-ts@<version> version dist-tags dist.integrity dist.attestations --json
-npm run release:verify -- --package lame-ts@<version>
+npm view @ishowshao/lame-ts@<version> version dist-tags dist.integrity dist.attestations --json
+npm run release:verify -- --package @ishowshao/lame-ts@<version>
 gh release view v<version> --repo ishowshao/lame-ts
 git status --short
 git rev-parse HEAD origin/main
